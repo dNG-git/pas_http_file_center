@@ -1,0 +1,54 @@
+// Icon names from left to right
+$mini-icon-names: medium-file-center-unknown,
+                  medium-file-center-application,
+                  medium-file-center-archive,
+                  medium-file-center-audio,
+                  medium-file-center-directory,
+                  medium-file-center-document,
+                  medium-file-center-image,
+                  medium-file-center-video;
+
+// Generate corresponding class names
+$mini-icon-class-names: null;
+
+@each $css-name in $mini-icon-names { $mini-icon-class-names: append($mini-icon-class-names, str-insert($css-name, ".", 1) + "-icon"); }
+
+// Default sprite size is 64px
+$mini-icon-size: 64px;
+
+#{$mini-icon-class-names} { width: #{$mini-icon-size}; height: #{$mini-icon-size}; background-image: url(medium_file_center_64px_sprite.png) }
+
+$mini-icon-position: 0;
+
+@each $css-name in $mini-icon-names {
+	.#{$css-name}-icon { background-position: -($mini-icon-size * $mini-icon-position) 0 }
+	$mini-icon-position: 1 + $mini-icon-position;
+}
+
+@media only screen and (max-width: 352px) {
+	// Small sprite size is 32px
+	$mini-icon-size: 32px;
+
+	#{$mini-icon-class-names} { width: $mini-icon-size; height: $mini-icon-size; background-image: url(medium_file_center_32px_sprite.png) }
+
+	$mini-icon-position: 0;
+
+	@each $css-name in $mini-icon-names {
+		.#{$css-name}-icon { background-position: -($mini-icon-size * $mini-icon-position) 0 }
+		$mini-icon-position: 1 + $mini-icon-position;
+	}
+}
+
+@media only screen and (min-width: 352px) and (max-width: 672px) {
+	// Medium sprite size is 48px
+	$mini-icon-size: 48px;
+
+	#{$mini-icon-class-names} { width: $mini-icon-size; height: $mini-icon-size; background-image: url(medium_file_center_48px_sprite.png) }
+
+	$mini-icon-position: 0;
+
+	@each $css-name in $mini-icon-names {
+		.#{$css-name}-icon { background-position: -($mini-icon-size * $mini-icon-position) 0 }
+		$mini-icon-position: 1 + $mini-icon-position;
+	}
+}

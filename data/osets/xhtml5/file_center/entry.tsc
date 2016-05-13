@@ -1,0 +1,31 @@
+<article class="pagecontent_file_center pagecontent_file_center_entry">
+[if:content:sub_entries != ]
+	<div class="pagecontent_box pagecontent_box_infoblock">
+		<div>[rewrite:l10n]pas_http_datalinker_sub_entries[/rewrite] <em>[rewrite:content]sub_entries_count[/rewrite]</em></div>
+	</div>
+[/if]
+[if:content:download_link_url != ]
+	<a href="[rewrite:content]download_link_url[/rewrite]">
+[/if]
+		<div class="pagecontent_box pagecontent_box_left pagecontent_box_right_padded"><img src="[rewrite:settings]x_pas_http_path_mmedia_versioned[/rewrite]/spacer.png" alt="[rewrite:safe_content]mimetype[/rewrite]" class="[rewrite:content]icon_class[/rewrite]" /></div>
+		<h1>[rewrite:safe_content]title[/rewrite]</h1>
+[if:content:download_link_url != ]
+	</a>
+[/if]
+	<p>[rewrite:l10n]pas_http_file_center_entry_published_1[/rewrite]<strong>[rewrite:timestamp:date_time_long]time[/rewrite]</strong>[rewrite:l10n]pas_http_file_center_entry_published_2[/rewrite][rewrite:user_linked]owner[/rewrite][rewrite:l10n]pas_http_file_center_entry_published_3[/rewrite]</p>
+[if:content:parent != ]
+[block:content:parent]datalinker.ParentBox.render[/block]
+[/if]
+[block:content:details_form_view]output.Form.render_view[/block]
+[if:content:sub_entries != ]
+[block:content:sub_entries]output.DatabaseTable.render[/block]
+[/if]
+[if:content:topic_entries != ]
+[block:content:topic_entries]output.DatabaseTable.render[/block]
+[/if][if:content:topic_entries == ]
+[if:content:parent == ][if:content:sub_entries == ]
+	<hr />
+[/if][/if]
+	<p><strong>[rewrite:l10n]pas_http_file_center_file_center_list_empty[/rewrite]</strong></p>
+[/if]
+</article>
