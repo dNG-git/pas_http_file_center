@@ -33,8 +33,9 @@ https://www.direct-netware.de/redirect?licenses;gpl
 
 from os import path
 
-from dNG.pas.data.mime_type import MimeType
-from dNG.pas.data.text.input_filter import InputFilter
+from dNG.data.mime_type import MimeType
+from dNG.data.text.input_filter import InputFilter
+
 from .entry import Entry
 
 class HttpProcessor(object):
@@ -42,7 +43,7 @@ class HttpProcessor(object):
 	"""
 "HttpProcessor" provides HTTP specifc methods for file center entries.
 
-:author:     direct Netware Group
+:author:     direct Netware Group et al.
 :copyright:  direct Netware Group - All rights reserved
 :package:    pas.http
 :subpackage: file_center

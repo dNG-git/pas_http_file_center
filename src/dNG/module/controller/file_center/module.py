@@ -31,17 +31,17 @@ https://www.direct-netware.de/redirect?licenses;gpl
 #echo(__FILEPATH__)#
 """
 
-from dNG.pas.data.settings import Settings
-from dNG.pas.data.translatable_exception import TranslatableException
-from dNG.pas.database.connection import Connection
-from dNG.pas.module.controller.abstract_http import AbstractHttp as AbstractHttpController
+from dNG.data.settings import Settings
+from dNG.data.translatable_exception import TranslatableException
+from dNG.database.connection import Connection
+from dNG.module.controller.abstract_http import AbstractHttp as AbstractHttpController
 
 class Module(AbstractHttpController):
 #
 	"""
 Module for "file_center"
 
-:author:     direct Netware Group
+:author:     direct Netware Group et al.
 :copyright:  (C) direct Netware Group - All rights reserved
 :package:    pas.http
 :subpackage: file_center

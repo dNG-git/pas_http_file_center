@@ -31,22 +31,23 @@ https://www.direct-netware.de/redirect?licenses;gpl
 #echo(__FILEPATH__)#
 """
 
-from dNG.pas.data.hookable_settings import HookableSettings
-from dNG.pas.data.ownable_mixin import OwnableMixin as OwnableInstance
-from dNG.pas.data.settings import Settings
-from dNG.pas.data.file_center.entry import Entry
-from dNG.pas.data.http.streaming import Streaming
-from dNG.pas.data.http.translatable_error import TranslatableError
-from dNG.pas.data.http.translatable_exception import TranslatableException
-from dNG.pas.data.streamer.file_like import FileLike
-from dNG.pas.data.text.input_filter import InputFilter
-from dNG.pas.data.text.l10n import L10n
-from dNG.pas.data.xhtml.link import Link
-from dNG.pas.data.xhtml.form.info_field import InfoField
-from dNG.pas.data.xhtml.form.view import View as FormView
-from dNG.pas.database.nothing_matched_exception import NothingMatchedException
-from dNG.pas.runtime.io_exception import IOException
-from dNG.pas.vfs.implementation import Implementation
+from dNG.data.file_center.entry import Entry
+from dNG.data.http.streaming import Streaming
+from dNG.data.http.translatable_error import TranslatableError
+from dNG.data.http.translatable_exception import TranslatableException
+from dNG.data.hookable_settings import HookableSettings
+from dNG.data.ownable_mixin import OwnableMixin as OwnableInstance
+from dNG.data.settings import Settings
+from dNG.data.streamer.file_like import FileLike
+from dNG.data.text.input_filter import InputFilter
+from dNG.data.text.l10n import L10n
+from dNG.data.xhtml.form.info_field import InfoField
+from dNG.data.xhtml.form.view import View as FormView
+from dNG.data.xhtml.link import Link
+from dNG.database.nothing_matched_exception import NothingMatchedException
+from dNG.runtime.io_exception import IOException
+from dNG.vfs.implementation import Implementation
+
 from .module import Module
 
 class Index(Module):
@@ -54,7 +55,7 @@ class Index(Module):
 	"""
 Service for "m=file_center"
 
-:author:     direct Netware Group
+:author:     direct Netware Group et al.
 :copyright:  (C) direct Netware Group - All rights reserved
 :package:    pas.http
 :subpackage: file_center
@@ -104,10 +105,10 @@ Action for "download"
 			else: raise TranslatableError("core_access_denied", 403)
 		#
 
-		entry_data = entry.get_data_attributes("title", "vfs_uri", "mimetype", "size")
-		if (entry_data['vfs_uri'] is None): raise TranslatableError("pas_http_file_center_eid_invalid", 404)
+		entry_data = entry.get_data_attributes("title", "vfs_url", "mimetype", "size")
+		if (entry_data['vfs_url'] is None): raise TranslatableError("pas_http_file_center_eid_invalid", 404)
 
-		try: vfs_object = Implementation.load_vfs_uri(entry_data['vfs_uri'], True)
+		try: vfs_object = Implementation.load_vfs_url(entry_data['vfs_url'], True)
 		except IOException as handled_exception: raise TranslatableException("core_unknown_error", _exception = handled_exception)
 
 		download_file_name = InputFilter.filter_file_path(entry_data['title'])
@@ -190,7 +191,7 @@ Action for "view"
 		                                       "title",
 		                                       "time_sortable",
 		                                       "sub_entries",
-		                                       "vfs_uri",
+		                                       "vfs_url",
 		                                       "owner_id",
 		                                       "owner_ip",
 		                                       "mimeclass",
@@ -211,7 +212,7 @@ Action for "view"
 		            "mimetype": entry_data['mimetype']
 		          }
 
-		if (entry_data['vfs_uri'] is not None):
+		if (entry_data['vfs_url'] is not None):
 		#
 			download_link_params = { "m": "file_center", "a": "download", "dsd": { "feid": eid } }
 
