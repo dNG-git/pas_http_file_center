@@ -31,6 +31,7 @@ https://www.direct-netware.de/redirect?licenses;gpl
 #echo(__FILEPATH__)#
 """
 
+from dNG.controller.predefined_http_request import PredefinedHttpRequest
 from dNG.data.file_center.entry import Entry
 from dNG.data.http.streaming import Streaming
 from dNG.data.http.translatable_error import TranslatableError
@@ -78,6 +79,14 @@ Action for "index"
 		"""
 
 		if (self.request.is_dsd_set("feid")): self.execute_view()
+		else:
+		#
+			session = (self.request.get_session() if (self.request.is_supported("session")) else None)
+
+			if (session is not None
+			    and session.get_user_profile() is not None
+			   ): self.execute_root_directory_view()
+		#
 	#
 
 	def execute_download(self):
@@ -119,6 +128,32 @@ Action for "download"
 		self.response.set_header("Content-Disposition", "attachment; filename=\"{0}\"".format(download_file_name))
 		self.response.set_header("Content-Type", entry_data['mimetype'])
 		Streaming.handle(self.request, streamer, self.response)
+	#
+
+	def execute_root_directory_view(self):
+	#
+		"""
+Action for "root_directory_view"
+
+:since: v0.1.00
+		"""
+
+		session = (self.request.get_session() if (self.request.is_supported("session")) else None)
+		user_profile = (None if (session is None) else session.get_user_profile())
+
+		if (user_profile is None): raise TranslatableError("core_access_denied", 403)
+
+		root_directory = Entry.load_or_create_owner_root_directory(user_profile.get_id())
+		eid = root_directory.get_id()
+
+		redirect_request = PredefinedHttpRequest()
+		redirect_request.set_module("file_center")
+		redirect_request.set_action("view")
+
+		redirect_request.set_dsd_dict(self.request.get_dsd_dict())
+		redirect_request.set_dsd("feid", eid)
+
+		self.request.redirect(redirect_request)
 	#
 
 	def execute_view(self):
@@ -176,13 +211,16 @@ Action for "view"
 			               priority = 3
 			              )
 
-			Link.set_store("servicemenu",
-			               (Link.TYPE_RELATIVE_URL | Link.TYPE_JS_REQUIRED),
-			               L10n.get("pas_http_file_center_entry_new"),
-			               { "m": "file_center", "s": "entry", "a": "new", "dsd": { "feid": eid } },
-			               icon = "mini-default-option",
-			               priority = 3
-			              )
+			if (entry.is_vfs_type(Entry.VFS_TYPE_DIRECTORY)):
+			#
+				Link.set_store("servicemenu",
+				               (Link.TYPE_RELATIVE_URL | Link.TYPE_JS_REQUIRED),
+				               L10n.get("pas_http_file_center_entry_new"),
+				               { "m": "file_center", "s": "entry", "a": "new", "dsd": { "feid": eid } },
+				               icon = "mini-default-option",
+				               priority = 3
+				              )
+			#
 		#
 		"""
 
@@ -208,11 +246,12 @@ Action for "view"
 		            "title": entry_data['title'],
 		            "time": entry_data['time_sortable'],
 		            "sub_entries_count": entry_data['sub_entries'],
+		            "owner": { "id": entry_data['owner_id'], "ip": entry_data['owner_ip'] },
 		            "icon_class": "medium-file-center-{0}-icon".format(mimeclass_icon),
 		            "mimetype": entry_data['mimetype']
 		          }
 
-		if (entry_data['vfs_url'] is not None):
+		if ((not entry.is_vfs_type(Entry.VFS_TYPE_DIRECTORY)) and entry_data['vfs_url'] is not None):
 		#
 			download_link_params = { "m": "file_center", "a": "download", "dsd": { "feid": eid } }
 
