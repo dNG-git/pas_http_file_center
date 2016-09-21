@@ -36,7 +36,6 @@ from dNG.data.file_center.entry import Entry
 from dNG.data.http.streaming import Streaming
 from dNG.data.http.translatable_error import TranslatableError
 from dNG.data.http.translatable_exception import TranslatableException
-from dNG.data.hookable_settings import HookableSettings
 from dNG.data.ownable_mixin import OwnableMixin as OwnableInstance
 from dNG.data.settings import Settings
 from dNG.data.streamer.file_like import FileLike
@@ -278,7 +277,12 @@ Action for "view"
 		#
 			field = InfoField("fsize")
 			field.set_title(L10n.get("pas_http_file_center_entry_size"))
-			field.set_value(entry_data['size'])
+
+			field.set_value("{0}{1:d}{2}".format(L10n.get("pas_http_file_center_entry_size_bytes_1"),
+			                                     entry_data['size'],
+			                                     L10n.get("pas_http_file_center_entry_size_bytes_2")
+			                                    )
+			               )
 
 			form.add(field)
 		#
@@ -287,17 +291,8 @@ Action for "view"
 
 		if (entry_data['sub_entries'] > 0):
 		#
-			hookable_settings = HookableSettings("dNG.pas.http.file_center.Entry.getListLimit",
-			                                     id = entry_data['id']
-			                                    )
-
-			limit = hookable_settings.get("pas_http_file_center_entry_list_limit", 20)
-
-			content['sub_entries'] = { "eid": entry_data['id'],
-			                           "dsd_page_key": "fpage",
+			content['sub_entries'] = { "id": entry_data['id'],
 			                           "page": page,
-			                           "limit": limit,
-			                           "dsd_sort_key": "fsort",
 			                           "sort_value": sort_value
 			                         }
 		#

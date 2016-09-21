@@ -1,0 +1,7 @@
+<h2><a href="[rewrite:content]link[/rewrite]">[rewrite:safe_content]title[/rewrite]</a></h2>
+[if:content:description != ]
+<p>[rewrite:formtags_content]description[/rewrite]</p>
+[/if]
+[if:content:page_links != ]
+<nav class="pagecontent_pages_navigation_list"><small>[rewrite:content]page_links[/rewrite]</small></nav>
+[/if]

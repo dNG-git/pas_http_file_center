@@ -1,13 +1,16 @@
 {
+ "pas_http_file_center_entry": "Eintrag",
  "pas_http_file_center_entry_delete": "Eintrag löschen",
  "pas_http_file_center_entry_download": "Datei herunterladen",
  "pas_http_file_center_entry_edit": "Eintrag bearbeiten",
  "pas_http_file_center_entry_mime_type": "MIME-Typ",
  "pas_http_file_center_entry_new": "Neuen Untereintrag erstellen",
  "pas_http_file_center_entry_size": "Dateigröße",
+ "pas_http_file_center_entry_size_bytes_1": "",
+ "pas_http_file_center_entry_size_bytes_2": " bytes",
  "pas_http_file_center_entry_published_1": "Veröffentlicht am ",
  "pas_http_file_center_entry_published_2": " von ",
  "pas_http_file_center_entry_published_3": ".",
 
- "errors_pas_http_contentor_did_invalid": "Die angegebene Eintrags-ID ist ungültig."
+ "errors_pas_http_file_center_eid_invalid": "Die angegebene Eintrags-ID ist ungültig."
 }

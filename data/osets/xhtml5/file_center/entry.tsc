@@ -18,14 +18,12 @@
 [/if]
 [block:content:details_form_view]output.Form.render_view[/block]
 [if:content:sub_entries != ]
-[block:content:sub_entries]output.DatabaseTable.render[/block]
-[/if]
-[if:content:topic_entries != ]
-[block:content:topic_entries]output.DatabaseTable.render[/block]
-[/if][if:content:topic_entries == ]
-[if:content:parent == ][if:content:sub_entries == ]
+	<br />
+[block:content:sub_entries]file_center.EntryList.render[/block]
+[/if][if:content:sub_entries == ]
+[if:content:parent == ]
 	<hr />
-[/if][/if]
+[/if]
 	<p><strong>[rewrite:l10n]pas_http_file_center_file_center_list_empty[/rewrite]</strong></p>
 [/if]
 </article>
